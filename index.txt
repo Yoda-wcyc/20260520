@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb Design System Preview</title>
+    <style>
+        /* =========================================
+           Design Tokens (從你的描述碼提取)
+           ========================================= */
+        :root {
+            /* Colors */
+            --canvas: #ffffff;
+            --ink: #222222;
+            --muted: #6a6a6a;
+            --primary: #ff385c; /* Rausch */
+            --surface-soft: #f7f7f7;
+            --hairline: #dddddd;
+            
+            /* Typography (使用系統字體模擬 Cereal VF) */
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            --title-md: 600 16px/1.25 var(--font-family);
+            --body-sm: 400 14px/1.43 var(--font-family);
+            --caption: 500 14px/1.29 var(--font-family);
+            --badge: 600 11px/1.18 var(--font-family);
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-base: 16px;
+            --spacing-lg: 24px;
+            --spacing-section: 64px;
+            
+            /* Rounded */
+            --rounded-sm: 8px;
+            --rounded-md: 14px;
+            --rounded-full: 9999px;
+            
+            /* Elevation */
+            --shadow-float: rgba(0, 0, 0, 0.02) 0 0 0 1px, rgba(0, 0, 0, 0.04) 0 2px 6px 0, rgba(0, 0, 0, 0.1) 0 4px 8px 0;
+        }
+
+        body {
+            background-color: var(--canvas);
+            color: var(--ink);
+            font-family: var(--font-family);
+            padding: var(--spacing-section);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 48px;
+        }
+
+        /* =========================================
+           Component 1: Search Bar Pill
+           ========================================= */
+        .search-bar-pill {
+            display: flex;
+            align-items: center;
+            background: var(--canvas);
+            border: 1px solid var(--hairline);
+            border-radius: var(--rounded-full);
+            height: 64px;
+            box-shadow: var(--shadow-float);
+            padding-right: 8px; /* 為搜尋按鈕留空間 */
+        }
+
+        .search-segment {
+            padding: 8px 24px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            border-radius: var(--rounded-full);
+        }
+
+        .search-segment:hover {
+            background-color: var(--surface-soft);
+        }
+
+        .segment-label {
+            font: var(--badge);
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+
+        .segment-placeholder {
+            font: var(--body-sm);
+            color: var(--muted);
+        }
+
+        .divider {
+            width: 1px;
+            height: 32px;
+            background-color: var(--hairline);
+        }
+
+        .search-orb {
+            width: 48px;
+            height: 48px;
+            background-color: var(--primary);
+            border-radius: var(--rounded-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .search-orb svg {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 3;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* =========================================
+           Component 2: Property Card
+           ========================================= */
+        .property-card {
+            width: 320px;
+            font-family: var(--font-family);
+            cursor: pointer;
+        }
+
+        .card-image-container {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: var(--rounded-md);
+            background-color: var(--surface-soft);
+            position: relative;
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+        }
+
+        /* 模擬圖片 */
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background-image: url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Guest favorite badge */
+        .guest-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--canvas);
+            font: var(--badge);
+            padding: 4px 10px;
+            border-radius: var(--rounded-full);
+            box-shadow: var(--shadow-float);
+        }
+
+        /* Heart Icon */
+        .heart-icon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .heart-icon svg {
+            fill: rgba(0,0,0,0.5);
+            stroke: #ffffff;
+            stroke-width: 2;
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Meta Info */
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font: var(--title-md);
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .card-rating {
+            font: var(--body-sm);
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-subtitle {
+            font: var(--body-sm);
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .card-price {
+            font: var(--body-sm);
+            color: var(--ink);
+            margin-top: 4px;
+        }
+        .card-price strong {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 展示 1：Global Search Bar -->
+    <div class="search-bar-pill">
+        <div class="search-segment">
+            <span class="segment-label">地點</span>
+            <span class="segment-placeholder">搜尋目的地</span>
+        </div>
+        <div class="divider"></div>
+        <div class="search-segment">
+            <span class="segment-label">入住</span>
+            <span class="segment-placeholder">新增日期</span>
+        </div>
+        <div class="divider"></div>
+        <div class="search-segment">
+            <span class="segment-label">退房</span>
+            <span class="segment-placeholder">新增日期</span>
+        </div>
+        <div class="divider"></div>
+        <div class="search-segment">
+            <span class="segment-label">旅客</span>
+            <span class="segment-placeholder">新增人數</span>
+        </div>
+        <div class="search-orb">
+            <!-- 搜尋放大鏡圖示 -->
+            <svg viewBox="0 0 32 32"><path d="M13 3C7.48 3 3 7.48 3 13s4.48 10 10 10c2.38 0 4.56-.84 6.26-2.24l7.03 7.03 1.41-1.41-7.03-7.03C22.16 17.56 23 15.38 23 13c0-5.52-4.48-10-10-10zm0 2c4.43 0 8 3.57 8 8s-3.57 8-8 8-8-3.57-8-8 3.57-8 8-8z"></path></svg>
+        </div>
+    </div>
+
+    <!-- 展示 2：Property Card -->
+    <div class="property-card">
+        <div class="card-image-container">
+            <div class="card-image"></div>
+            <div class="guest-badge">旅客最愛</div>
+            <div class="heart-icon">
+                <svg viewBox="0 0 32 32"><path d="M16 28.26l-2.03-1.84C6.54 19.64 2 15.52 2 10.5 2 6.34 5.24 3 9.5 3c2.4 0 4.7 1.1 6.5 2.84C17.8 4.1 20.1 3 22.5 3 26.76 3 30 6.34 30 10.5c0 5.02-4.54 9.14-11.97 15.94L16 28.26z"></path></svg>
+            </div>
+        </div>
+        <div class="card-meta">
+            <div class="card-header">
+                <h3 class="card-title">日本, 京都</h3>
+                <span class="card-rating">★ 4.98</span>
+            </div>
+            <p class="card-subtitle">距離 1,842 公里</p>
+            <p class="card-subtitle">10月12日 - 17日</p>
+            <p class="card-price"><strong>$4,250 TWD</strong> / 晚</p>
+        </div>
+    </div>
+
+</body>
+</html>
